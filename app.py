@@ -136,68 +136,100 @@ BASE = """
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fluxid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --navy:#0f2942; --ink:#12202f; --line:#e3e6ea; --muted:#7a8797;
-          --accent:#2f7bd8; --accent_bg:#eaf2fc; --bg:#f6f8fa; --card:#ffffff; }
+  :root { --void:#0a0a0f; --raise:#15151f; --raise2:#1c1c28;
+          --line:rgba(255,255,255,0.07); --line2:rgba(255,255,255,0.13);
+          --text:#f5f5f8; --muted:#8f8fa0;
+          --violet:#8b6bff; --grad:linear-gradient(135deg,#7c5cff,#c77dff);
+          --glow:0 6px 24px rgba(124,92,255,0.45); }
   * { box-sizing:border-box; }
-  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-         background:var(--bg); color:var(--ink); }
-  .wrap { max-width:520px; margin:0 auto; background:var(--card); min-height:100vh;
-          border-left:1px solid var(--line); border-right:1px solid var(--line); }
-  .top { display:flex; align-items:center; justify-content:space-between;
-         padding:14px 18px 10px; }
-  .brand { font-size:22px; font-weight:600; letter-spacing:0.3px; color:var(--navy); }
-  .top a { color:var(--navy); text-decoration:none; font-size:14px; font-weight:500; }
-  .lanes { display:flex; gap:10px; padding:4px 14px 12px; overflow-x:auto; }
+  body { margin:0; font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;
+         background:var(--void); color:var(--text); -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:500px; margin:0 auto; min-height:100vh; padding-bottom:96px; }
+  .top { position:sticky; top:0; z-index:6; display:flex; align-items:center;
+         justify-content:space-between; padding:16px 18px 12px;
+         background:rgba(10,10,15,0.82); backdrop-filter:blur(14px);
+         -webkit-backdrop-filter:blur(14px); }
+  .brand { font-family:Space Grotesk,sans-serif; font-size:25px; font-weight:700;
+           letter-spacing:-0.5px; background:var(--grad);
+           -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .top a { color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; }
+  .top a:hover { color:var(--text); }
+  .lanes { position:sticky; top:56px; z-index:5; display:flex; gap:11px;
+           padding:6px 16px 14px; overflow-x:auto; background:var(--void);
+           scrollbar-width:none; }
+  .lanes::-webkit-scrollbar { display:none; }
   .lane { flex:0 0 auto; display:flex; flex-direction:column; align-items:center;
-          gap:6px; text-decoration:none; }
-  .tile { width:64px; height:64px; border-radius:16px; background:var(--bg);
+          gap:7px; text-decoration:none; }
+  .tile { width:60px; height:60px; border-radius:18px; background:var(--raise);
           border:1px solid var(--line); display:flex; align-items:center;
-          justify-content:center; font-size:22px; }
-  .lane .label { font-size:12px; color:var(--muted); }
-  .lane.active .tile { background:var(--accent_bg); border:2px solid var(--accent); }
-  .lane.active .label { color:var(--accent); font-weight:600; }
-  .cue { display:flex; align-items:center; gap:6px; padding:12px 18px;
-         font-size:13px; color:var(--muted); border-top:1px solid var(--line); }
-  .post { padding:14px 18px; border-top:1px solid var(--line); }
-  .phead { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-  .av { width:36px; height:36px; border-radius:50%; background:var(--accent_bg);
-        color:var(--accent); display:flex; align-items:center; justify-content:center;
-        font-weight:600; font-size:14px; }
-  .phead .h { font-size:14px; font-weight:600; }
-  .phead .t { font-size:12px; color:var(--muted); }
-  .pimg { width:100%; border-radius:14px; display:block; background:var(--bg); }
-  .pcap { font-size:15px; margin:10px 2px 6px; }
-  .pacts { display:flex; align-items:center; gap:16px; font-size:14px;
-           color:var(--muted); }
+          justify-content:center; font-size:24px; transition:transform .15s ease; }
+  .lane:hover .tile { transform:translateY(-2px); }
+  .lane .label { font-size:12px; color:var(--muted); letter-spacing:0.1px; }
+  .lane.active .tile { background:var(--grad); border:0; box-shadow:var(--glow); }
+  .lane.active .label { color:var(--text); font-weight:600; }
+  .cue { display:flex; align-items:center; gap:7px; padding:14px 18px;
+         font-size:13px; color:var(--muted); }
+  .post { padding:18px 0 22px; border-top:1px solid var(--line); }
+  .phead { display:flex; align-items:center; gap:11px; margin:0 18px 14px; }
+  .av { width:40px; height:40px; border-radius:50%; padding:2px; background:var(--grad);
+        display:flex; align-items:center; justify-content:center; }
+  .av span { width:100%; height:100%; border-radius:50%; background:var(--raise2);
+             color:var(--text); display:flex; align-items:center; justify-content:center;
+             font-weight:600; font-size:14px; font-family:Space Grotesk,sans-serif; }
+  .phead .h { font-size:15px; font-weight:600; letter-spacing:-0.2px; }
+  .phead .t { font-size:12px; color:var(--muted); margin-top:1px; }
+  .pimg { width:100%; display:block; background:var(--raise); }
+  .pcap { font-size:15px; line-height:1.5; margin:14px 18px 10px; }
+  .pacts { display:flex; align-items:center; gap:18px; font-size:14px;
+           color:var(--muted); margin:0 18px; }
   .pacts form { margin:0; }
   .pacts button { background:none; border:none; color:var(--muted); font-size:14px;
-                  cursor:pointer; padding:0; }
-  .pacts .liked { color:var(--accent); font-weight:600; }
-  .empty { padding:40px 24px; text-align:center; color:var(--muted); font-size:15px; }
-  .card { padding:22px 20px; }
-  label { display:block; font-size:13px; color:var(--muted); margin:14px 0 6px; }
-  input, select, textarea { width:100%; padding:11px 12px; border:1px solid var(--line);
-         border-radius:10px; font-size:15px; font-family:inherit; background:var(--card); }
-  textarea { resize:vertical; min-height:64px; }
-  .btn { width:100%; margin-top:18px; padding:12px; border:none; border-radius:10px;
-         background:var(--navy); color:#fff; font-size:15px; font-weight:600; cursor:pointer; }
-  .fab { position:fixed; left:50%; transform:translateX(-50%); bottom:22px;
-         background:var(--navy); color:#fff; padding:13px 22px; border-radius:26px;
-         text-decoration:none; font-size:15px; font-weight:600; box-shadow:0 4px 14px rgba(15,41,66,0.25); }
-  .flash { padding:12px 18px; background:var(--accent_bg); color:var(--navy); font-size:14px; }
-  .foot { padding:22px; text-align:center; }
-  .foot a { color:var(--accent); text-decoration:none; font-size:14px; }
-  .subnav { display:flex; gap:18px; padding:10px 18px; font-size:14px;
+                  cursor:pointer; padding:0; display:flex; align-items:center; gap:5px;
+                  transition:color .15s ease; }
+  .pacts button:hover { color:var(--text); }
+  .pacts .liked { color:var(--violet); font-weight:600; }
+  .empty { padding:56px 24px; text-align:center; color:var(--muted); font-size:15px; }
+  .card { padding:28px 22px; }
+  .card h2 { font-family:Space Grotesk,sans-serif; font-size:27px; font-weight:700;
+             letter-spacing:-0.6px; margin:0 0 6px; }
+  .lede { color:var(--muted); font-size:14px; margin:0 0 6px; }
+  label { display:block; font-size:13px; color:var(--muted); margin:16px 0 7px;
+          font-weight:500; }
+  input, select, textarea { width:100%; padding:13px 14px; border:1px solid var(--line2);
+         border-radius:12px; font-size:15px; font-family:inherit; background:var(--raise);
+         color:var(--text); outline:none; transition:border-color .15s ease; }
+  input:focus, select:focus, textarea:focus { border-color:var(--violet); }
+  input::placeholder, textarea::placeholder { color:var(--muted); }
+  textarea { resize:vertical; min-height:70px; }
+  .btn { width:100%; margin-top:22px; padding:14px; border:none; border-radius:14px;
+         background:var(--grad); color:#fff; font-size:15px; font-weight:600;
+         cursor:pointer; box-shadow:var(--glow); }
+  .fab { position:fixed; left:50%; transform:translateX(-50%); bottom:26px; z-index:7;
+         background:var(--grad); color:#fff; padding:15px 30px; border-radius:30px;
+         text-decoration:none; font-size:15px; font-weight:600; letter-spacing:0.2px;
+         box-shadow:var(--glow); }
+  .flash { margin:12px 18px; padding:12px 16px; background:var(--raise2);
+           border:1px solid var(--line2); border-radius:12px; color:var(--text);
+           font-size:14px; }
+  .foot { padding:26px; text-align:center; }
+  .foot a { color:var(--violet); text-decoration:none; font-size:14px; font-weight:500; }
+  .subnav { display:flex; gap:20px; padding:16px 18px; font-size:14px;
             border-top:1px solid var(--line); }
   .subnav a { color:var(--muted); text-decoration:none; }
+  .subnav a:hover { color:var(--text); }
   .who { display:flex; align-items:center; justify-content:space-between;
-         padding:12px 18px; border-top:1px solid var(--line); }
-  .who .name { font-weight:600; font-size:15px; }
+         padding:15px 18px; border-top:1px solid var(--line); }
+  .who .name { font-weight:600; font-size:15px; letter-spacing:-0.2px; }
   .who form { margin:0; }
-  .who button { padding:8px 16px; border-radius:20px; border:1px solid var(--navy);
-                background:#fff; color:var(--navy); font-weight:600; cursor:pointer; }
-  .who button.on { background:var(--navy); color:#fff; }
+  .who button { padding:9px 20px; border-radius:22px; border:1px solid var(--line2);
+                background:transparent; color:var(--text); font-weight:600;
+                font-size:14px; cursor:pointer; transition:all .15s ease; }
+  .who button:hover { border-color:var(--violet); }
+  .who button.on { background:var(--grad); border:0; box-shadow:var(--glow); }
 </style>
 </head>
 <body>
@@ -277,8 +309,8 @@ def signup():
     body = """
       <div class="top"><span class="brand">Fluxid</span></div>
       <div class="card">
-        <h2 style="margin:0 0 4px;color:#0f2942;">Create your account</h2>
-        <p style="color:#7a8797;font-size:14px;margin:0;">You choose the feed. Not a machine.</p>
+        <h2>Create your account</h2>
+        <p class="lede">You choose the feed. Not a machine.</p>
         <form method="post">
           <label>Handle</label>
           <input name="handle" placeholder="yourname" autocomplete="off">
@@ -310,7 +342,7 @@ def login():
     body = """
       <div class="top"><span class="brand">Fluxid</span></div>
       <div class="card">
-        <h2 style="margin:0 0 4px;color:#0f2942;">Sign in</h2>
+        <h2>Sign in</h2>
         <form method="post">
           <label>Handle</label>
           <input name="handle" placeholder="yourname" autocomplete="off">
@@ -403,7 +435,7 @@ def feed(lane):
             parts.append(
                 '<div class="post">'
                 '<div class="phead">'
-                '<div class="av">%s</div>'
+                '<div class="av"><span>%s</span></div>'
                 '<div><div class="h">%s</div>'
                 '<div class="t">%s in %s</div></div></div>'
                 '<img class="pimg" src="%s" alt="post">'
@@ -471,7 +503,7 @@ def post_new():
       <div class="top"><span class="brand">Fluxid</span>
         <a href="%s">Cancel</a></div>
       <div class="card">
-        <h2 style="margin:0 0 12px;color:#0f2942;">New post</h2>
+        <h2>New post</h2>
         <form method="post" enctype="multipart/form-data">
           <label>Photo</label>
           <input type="file" name="photo" accept="image/*">

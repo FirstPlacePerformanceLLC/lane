@@ -1,6 +1,6 @@
 """
-Lane. A channel first photo feed.
-Tap a lane (Sports, Music, Art, Funny, Food, Nearby) and the feed becomes
+Fluxid. A channel first photo feed.
+Tap a channel (Sports, Music, Art, Funny, Food, Nearby) and the feed becomes
 that lane, newest first, from people you follow. One tap swaps the whole
 feed. The user picks the feed instead of an algorithm picking it for them.
 
@@ -135,7 +135,7 @@ BASE = """
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lane</title>
+<title>Fluxid</title>
 <style>
   :root { --navy:#0f2942; --ink:#12202f; --line:#e3e6ea; --muted:#7a8797;
           --accent:#2f7bd8; --accent_bg:#eaf2fc; --bg:#f6f8fa; --card:#ffffff; }
@@ -275,7 +275,7 @@ def signup():
             return redirect(url_for("signup"))
         return redirect(url_for("feed", lane="foryou"))
     body = """
-      <div class="top"><span class="brand">Lane</span></div>
+      <div class="top"><span class="brand">Fluxid</span></div>
       <div class="card">
         <h2 style="margin:0 0 4px;color:#0f2942;">Create your account</h2>
         <p style="color:#7a8797;font-size:14px;margin:0;">You choose the feed. Not a machine.</p>
@@ -308,7 +308,7 @@ def login():
         flash("Wrong handle or password.")
         return redirect(url_for("login"))
     body = """
-      <div class="top"><span class="brand">Lane</span></div>
+      <div class="top"><span class="brand">Fluxid</span></div>
       <div class="card">
         <h2 style="margin:0 0 4px;color:#0f2942;">Sign in</h2>
         <form method="post">
@@ -381,10 +381,10 @@ def feed(lane):
     else:
         cue = "%s, newest first, from people you follow" % LANE_LABELS[lane]
     if follow_count == 0:
-        cue = "Everything on Lane, newest first. Follow people to shape this."
+        cue = "Everything on Fluxid, newest first. Follow people to shape this."
 
     parts = [
-        '<div class="top"><span class="brand">Lane</span>'
+        '<div class="top"><span class="brand">Fluxid</span>'
         '<a href="%s">Discover</a></div>' % url_for("discover")
     ]
     parts.append(lane_strip(lane))
@@ -468,14 +468,14 @@ def post_new():
         '<option value="%s">%s</option>' % (k, v) for k, v in LANES
     )
     body = """
-      <div class="top"><span class="brand">Lane</span>
+      <div class="top"><span class="brand">Fluxid</span>
         <a href="%s">Cancel</a></div>
       <div class="card">
         <h2 style="margin:0 0 12px;color:#0f2942;">New post</h2>
         <form method="post" enctype="multipart/form-data">
           <label>Photo</label>
           <input type="file" name="photo" accept="image/*">
-          <label>Lane</label>
+          <label>Channel</label>
           <select name="lane">%s</select>
           <label>Caption</label>
           <textarea name="caption" placeholder="Say something"></textarea>
@@ -540,11 +540,11 @@ def discover():
         rows = cur.fetchall()
 
     parts = [
-        '<div class="top"><span class="brand">Lane</span>'
+        '<div class="top"><span class="brand">Fluxid</span>'
         '<a href="%s">Feed</a></div>' % url_for("feed", lane="foryou")
     ]
     parts.append(
-        '<div class="cue">&#128101;&nbsp;People on Lane</div>'
+        '<div class="cue">&#128101;&nbsp;People on Fluxid</div>'
     )
     if not rows:
         parts.append('<div class="empty">No one else here yet.</div>')
